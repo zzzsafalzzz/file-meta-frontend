@@ -1,9 +1,9 @@
 {
-  "name": "typescript-nextjs-starter",
-  "description": "A TypeScript starter for Next.js that includes all you need to build amazing projects",
+  "name": "file-meta-frontend",
+  "description": "Frontend from file-meta app",
   "version": "1.0.0",
   "private": true,
-  "author": "João Pedro Schmitz <oi@joaopedro.cc> (joaopedro.cc)",
+  "author": "Safal Raj Pandey <safal.pandey.sp@gmail.com>",
   "license": "MIT",
   "keywords": [
     "nextjs",
@@ -19,6 +19,7 @@
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write"
   },
   "dependencies": {
+    "axios": "0.21.1",
     "next": "10.0.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",

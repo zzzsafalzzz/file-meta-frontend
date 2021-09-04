@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IPrimaryButton {
-  // Props
+  disabled?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 type IProps = IPrimaryButton;
@@ -15,6 +15,12 @@ const StyledButton = styled.button`
   color: #2d0d85;
 `;
 
-export const PrimaryButton: React.FC<IProps> = ({ children }) => (
-  <StyledButton>{children}</StyledButton>
+export const PrimaryButton: React.FC<IProps> = ({
+  children,
+  onClick,
+  disabled,
+}) => (
+  <StyledButton onClick={onClick} disabled={disabled}>
+    {children}
+  </StyledButton>
 );

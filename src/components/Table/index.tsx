@@ -1,8 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Mapping from '@/domain/Mapping';
+import { TableRow, TRowData } from './TableRow';
+import { TableHeader } from './TableHeader';
+
 interface ITable {
-  columns: string[];
+  columnNameMap: Mapping<string>;
+  data: TRowData[];
+  onRemoveClick?: (row: any) => void;
 }
 
 type IProps = ITable;
@@ -26,34 +32,26 @@ const StyledTableHeader = styled.th`
   padding: 12px;
 `;
 
-const StyledTableRow = styled.tr`
-  background-color: #f6f6f6;
-  font-family: Arial;
-  color: #2d0d85;
-`;
+export const Table: React.FC<IProps> = ({
+  data,
+  columnNameMap,
+  onRemoveClick,
+}) => {
+  const columnKeys = Object.keys(columnNameMap);
 
-const StyledTableData = styled.td`
-  padding: 12px;
-  border: none;
-`;
-
-export const Table: React.FC<IProps> = ({ columns }) => (
-  <StyledTable>
-    <tbody>
-      <StyledTableRowHeader>
-        {columns.map((column) => (
-          <StyledTableHeader>{column}</StyledTableHeader>
+  return (
+    <StyledTable>
+      <tbody>
+        <TableHeader columnKeys={columnKeys} columnNameMap={columnNameMap} />
+        {data.map((row, rowIdx) => (
+          <TableRow
+            key={`TABLE-ROW-${rowIdx}`}
+            row={row}
+            columnKeys={columnKeys}
+            onRemoveClick={onRemoveClick}
+          />
         ))}
-      </StyledTableRowHeader>
-      <StyledTableRow>
-        <StyledTableData>TableRow</StyledTableData>
-        <StyledTableData>TableRow</StyledTableData>
-        <StyledTableData>TableRow</StyledTableData>
-        <StyledTableData>TableRow</StyledTableData>
-        <StyledTableData>
-          <button type="submit">X</button>
-        </StyledTableData>
-      </StyledTableRow>
-    </tbody>
-  </StyledTable>
-);
+      </tbody>
+    </StyledTable>
+  );
+};

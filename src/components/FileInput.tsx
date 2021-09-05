@@ -66,8 +66,9 @@ const FileInput: React.FC = () => {
       fileName,
       fileType,
       fileSize,
-      lastModified: new Date(lastModified),
+      lastModified: new Date(lastModified).toISOString(),
     });
+    resetInput();
     getFileHistoryList();
   };
 

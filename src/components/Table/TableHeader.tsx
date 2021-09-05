@@ -22,9 +22,7 @@ const StyledTableHeader = styled.th`
   padding: 12px;
 `;
 
-export const TableHeader: React.FC<IProps> = ({
-  columnConfigMap,
-}) => {
+export const TableHeader: React.FC<IProps> = ({ columnConfigMap }) => {
   return (
     <StyledTableRowHeader>
       {Object.values(columnConfigMap).map((columnConfig, idx) => (

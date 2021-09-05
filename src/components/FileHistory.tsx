@@ -1,15 +1,25 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { Table } from './Table';
-import { formatFileSize } from '@/utils/files';
+import { formatDate } from '@/utils/date';
 import { useFileState } from '@/contexts/FileContext';
+import { formatFileSize, getFileFormatLabel } from '@/utils/files';
 import { FileHistory as FileHistoryEntity } from '@/domain/FileHistoryList';
 
-const FILE_HISTORY_COLUMN_NAME_MAP = {
-  fileName: `Filename`,
-  fileSize: `File Size`,
-  lastModified: `Last Modified`,
-  fileType: `File Format`,
+const FILE_HISTORY_COLUMN_CONFIG_MAP = {
+  fileName: { label: `Filename` },
+  fileSize: {
+    label: `File Size`,
+    formatter: (size: number) => formatFileSize(size),
+  },
+  lastModified: {
+    label: `Last Modified`,
+    formatter: (lastModified: string) => formatDate(lastModified),
+  },
+  fileType: {
+    label: `File Format`,
+    formatter: (type: string) => getFileFormatLabel(type),
+  },
 };
 
 const FileHistory: React.FC = () => {
@@ -18,15 +28,6 @@ const FileHistory: React.FC = () => {
     getFileHistoryList,
     removeFileFromHistory,
   } = useFileState();
-
-  const formattedHistory = useMemo(
-    () =>
-      fileHistory.fileHistoryList.map((historyItem) => ({
-        ...historyItem,
-        fileSize: formatFileSize(historyItem.fileSize),
-      })),
-    [fileHistory.fileHistoryList],
-  );
 
   useEffect(() => {
     getFileHistoryList();
@@ -39,8 +40,8 @@ const FileHistory: React.FC = () => {
 
   return (
     <Table
-      columnNameMap={FILE_HISTORY_COLUMN_NAME_MAP}
-      data={formattedHistory}
+      columnConfigMap={FILE_HISTORY_COLUMN_CONFIG_MAP}
+      data={fileHistory.fileHistoryList}
       onRemoveClick={onRemoveClick}
     />
   );

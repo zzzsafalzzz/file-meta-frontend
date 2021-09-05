@@ -5,11 +5,16 @@ interface Mapping<T> {
   [key: string]: T;
 }
 
-export type TRowData = Mapping<string | number | Date>;
+export type TRowData = Mapping<string | number>;
+
+export interface IColumnConfig {
+  label: string;
+  formatter?: (columnValue: any) => string;
+}
 
 interface ITableRowProps {
-  columnKeys: string[];
   row: TRowData;
+  columnConfigMap: Mapping<IColumnConfig>;
   onRemoveClick?: (row: TRowData) => void;
 }
 
@@ -26,13 +31,13 @@ const StyledTableData = styled.td`
 
 export const TableRow: React.FC<ITableRowProps> = ({
   row,
-  columnKeys,
+  columnConfigMap,
   onRemoveClick,
 }) => (
   <StyledTableRow>
-    {columnKeys.map((column, colIdx) => (
+    {Object.entries(columnConfigMap).map(([column, config], colIdx) => (
       <StyledTableData key={`TABLE-DATA-${colIdx}`}>
-        {row[column]}
+        {config.formatter ? config.formatter(row[column]) : row[column]}
       </StyledTableData>
     ))}
     <StyledTableData onClick={() => onRemoveClick && onRemoveClick(row)}>

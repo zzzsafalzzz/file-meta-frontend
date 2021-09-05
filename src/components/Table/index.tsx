@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Mapping from '@/domain/Mapping';
-import { TableRow, TRowData } from './TableRow';
 import { TableHeader } from './TableHeader';
+import { IColumnConfig, TableRow, TRowData } from './TableRow';
 
 interface ITable {
-  columnNameMap: Mapping<string>;
+  columnConfigMap: Mapping<IColumnConfig>;
   data: TRowData[];
   onRemoveClick?: (row: any) => void;
 }
@@ -34,24 +34,20 @@ const StyledTableHeader = styled.th`
 
 export const Table: React.FC<IProps> = ({
   data,
-  columnNameMap,
+  columnConfigMap,
   onRemoveClick,
-}) => {
-  const columnKeys = Object.keys(columnNameMap);
-
-  return (
-    <StyledTable>
-      <tbody>
-        <TableHeader columnKeys={columnKeys} columnNameMap={columnNameMap} />
-        {data.map((row, rowIdx) => (
-          <TableRow
-            key={`TABLE-ROW-${rowIdx}`}
-            row={row}
-            columnKeys={columnKeys}
-            onRemoveClick={onRemoveClick}
-          />
-        ))}
-      </tbody>
-    </StyledTable>
-  );
-};
+}) => (
+  <StyledTable>
+    <tbody>
+      <TableHeader columnConfigMap={columnConfigMap} />
+      {data.map((row, rowIdx) => (
+        <TableRow
+          key={`TABLE-ROW-${rowIdx}`}
+          row={row}
+          onRemoveClick={onRemoveClick}
+          columnConfigMap={columnConfigMap}
+        />
+      ))}
+    </tbody>
+  </StyledTable>
+);

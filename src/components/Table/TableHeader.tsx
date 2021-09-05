@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Mapping from '@/domain/Mapping';
+import { IColumnConfig } from './TableRow';
 
 interface ITable {
-  columnNameMap: Mapping<string>;
-  columnKeys: string[];
+  columnConfigMap: Mapping<IColumnConfig>;
 }
 
 type IProps = ITable;
@@ -23,14 +23,13 @@ const StyledTableHeader = styled.th`
 `;
 
 export const TableHeader: React.FC<IProps> = ({
-  columnKeys,
-  columnNameMap,
+  columnConfigMap,
 }) => {
   return (
     <StyledTableRowHeader>
-      {columnKeys.map((column, idx) => (
+      {Object.values(columnConfigMap).map((columnConfig, idx) => (
         <StyledTableHeader key={`TABLE-HEADER-${idx}`}>
-          {columnNameMap[column]}
+          {columnConfig.label}
         </StyledTableHeader>
       ))}
       <StyledTableHeader></StyledTableHeader>
